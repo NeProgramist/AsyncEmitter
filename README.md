@@ -9,4 +9,4 @@
 Я сделал это для выбора оптимальной реализации AsyncEmitter и чтобы сдать хорошо курсовую работу.
 
 # График производительности
-![](https://i.ibb.co/f9Bk0n2/graph.png)
+![](https://i.ibb.co/hmqVPQr/graph.png)
