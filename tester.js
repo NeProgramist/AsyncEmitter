@@ -1,9 +1,9 @@
 'use strict';
 
-const aeObj = require('./objects');
-const aeArr = require('./arrays&objects');
-const aeHex = require('./hash-tables');
-const aeSet = require('./set&objects')
+const aeObj = require('./AsyncEmitters/objects');
+const aeArr = require('./AsyncEmitters/arrays&objects');
+const aeHex = require('./AsyncEmitters/hash-tables');
+const aeSet = require('./AsyncEmitters/set&objects')
 
 const COUNT = [10,100,1000,10000,100000];
 const REALIZATIONS = [aeObj, aeArr, aeHex];
