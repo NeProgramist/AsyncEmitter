@@ -2,17 +2,17 @@
 
 class AsyncEmitter {
   constructor() {
-    this.events = {};
-    this.wrappers = {};
+    this.eventsOn = {};
+    this.eventsOnce = {};
   }
 
   on(name, fn) {
-    let event = this.events[name];
+    let event = this.eventsOn[name];
     if (!event) {
       event = [];
-      this.events[name] = event;
+      this.eventsOn[name] = event;
     }
-    event.push(fn);
+    if (!event.includes(fn)) event.push(fn);
   }
 
   once(name, fn) {
@@ -21,61 +21,79 @@ class AsyncEmitter {
         this.once(name, resolve);
       });
     }
-    const wrapper = (...args) => {
-      this.remove(name, fn);
-      return fn(...args);
-    };
-    this.wrappers[fn] = wrapper;
-    this.on(name, wrapper);
+    let event = this.eventsOnce[name];
+    if (!event) {
+      event = [];
+      this.eventsOnce[name] = event;
+    }
+    if (!event.includes(fn)) event.push(fn);
+    return null;
   }
 
   async emit(name, ...args) {
-    const event = this.events[name];
-    if (!event) return;
-    return Promise.all(event.map(fn => fn(...args)));
+    const on = this.eventsOn[name] || [];
+    const once = this.eventsOnce[name] || [];
+    const promises = [...on,...once];
+    delete this.eventsOnce[name];
+    if(on.length === 0) delete this.eventsOn[name];
+    return Promise.all(promises.map(fn => fn(...args)));
   }
 
   remove(name, fn) {
-    const { events, wrappers } = this;
-    const event = events[name];
-    if (!event) return;
-    const i = event.indexOf(fn);
-    if (event[i]) event.splice(i,1);
-    const wrapper = wrappers[fn];
-    if (wrapper) {
-      delete wrappers[fn];
-      event.splice(event.indexOf(wrapper), 1);
-    }
-    if (this.count(name) === 0) delete events[name];
+    const { eventsOn, eventsOnce } = this;
+    if (!eventsOn[name] && !eventsOnce[name]) return;
+    const on = eventsOn[name] || [];
+    const once = eventsOnce[name] || [];
+    on.splice(on.indexOf(fn), 1);
+    once.splice(once.indexOf(fn), 1);
+    if (on.length === 0) delete this.eventsOn[name];
+    if (once.length === 0) delete this.eventsOnce[name];
   }
 
   clear(name) {
-    const { events, wrappers } = this;
     if (!name) {
-      this.events = {};
-      this.wrappers = {};
+      this.eventsOn = {};
+      this.eventsOnce = {};
       return;
     }
-    const event = events[name];
-    if (!event) return;
-    for (const [fn, wrapper] of Object.entries(wrappers)) {
-      if (event[event.indexOf(wrapper)]) delete wrappers[fn];
-    }
-    delete events[name];
+    delete this.eventsOn[name];
+    delete this.eventsOnce[name];
   }
 
   count(name) {
-    const event = this.events[name];
-    return event ? event.length : 0;
+    return this.listeners(name).length;
   }
 
   listeners(name) {
-    return this.events[name];
+    const on = this.eventsOn[name] || [];
+    const once = this.eventsOnce[name] || []; 
+    return [...on, ...once];
   }
 
   names() {
-    return [...Object.keys(this.events)];
+    const events = Object.assign({}, this.eventsOn, this.eventsOnce);
+    return Object.keys(events);
   }
 }
 
-module.exports = AsyncEmitter;
+// const ee = new AsyncEmitter();
+
+// (async () => {
+
+//   ee.once('e1', async () => {
+//     console.log('e1 listener 1');
+//   });
+
+//   ee.once('e1', async () => {
+//     console.log('e1 listener 2');
+//   });
+//   console.log(ee.count('e1'))
+//   console.log(ee.names().length)
+//   ee.emit('e1');
+//   console.log(ee.count('e1'))
+//   console.log(ee.names().length);
+
+  
+// })();
+
+module.exports = { AsyncEmitter };

@@ -31,23 +31,23 @@ COUNT.map(c => {
 });
 console.log('-----aeObj-----');
 
-console.log('-----aeHash-----');
-COUNT.map(c => {
-    console.log(c);
-    speedChecker(aeHex,c);
-});
-console.log('-----aeHash-----');
+// console.log('-----aeHash-----');
+// COUNT.map(c => {
+//     console.log(c);
+//     speedChecker(aeHex,c);
+// });
+// console.log('-----aeHash-----');
 
-console.log('-----aeArr-----');
-COUNT.map(c => {
-    console.log(c);
-    speedChecker(aeArr,c);
-});
-console.log('-----aeArr-----');
+// console.log('-----aeArr-----');
+// COUNT.map(c => {
+//     console.log(c);
+//     speedChecker(aeArr,c);
+// });
+// console.log('-----aeArr-----');
 
-console.log('-----aeSet-----');
-COUNT.map(c => {
-    console.log(c);
-    speedChecker(aeSet,c);
-});
-console.log('-----aeSet-----');
+// console.log('-----aeSet-----');
+// COUNT.map(c => {
+//     console.log(c);
+//     speedChecker(aeSet,c);
+// });
+// console.log('-----aeSet-----');
