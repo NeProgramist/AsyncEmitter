@@ -2,8 +2,6 @@
 
 const aeObj = require('./AsyncEmitters/objects');
 const aeArr = require('./AsyncEmitters/arrays&objects');
-const aeHex = require('./AsyncEmitters/hash-tables');
-const aeSet = require('./AsyncEmitters/set&objects');
 
 const COUNT = [10,100,1000,10000,100000];
 
@@ -31,23 +29,9 @@ COUNT.map(c => {
 });
 console.log('-----aeObj-----');
 
-// console.log('-----aeHash-----');
-// COUNT.map(c => {
-//     console.log(c);
-//     speedChecker(aeHex,c);
-// });
-// console.log('-----aeHash-----');
-
-// console.log('-----aeArr-----');
-// COUNT.map(c => {
-//     console.log(c);
-//     speedChecker(aeArr,c);
-// });
-// console.log('-----aeArr-----');
-
-// console.log('-----aeSet-----');
-// COUNT.map(c => {
-//     console.log(c);
-//     speedChecker(aeSet,c);
-// });
-// console.log('-----aeSet-----');
+console.log('-----aeArr-----');
+COUNT.map(c => {
+    console.log(c);
+    speedChecker(aeArr,c);
+});
+console.log('-----aeArr-----');

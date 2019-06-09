@@ -29,7 +29,7 @@ class AsyncEmitter {
     }
     const val = Object.values(event);
     if (!val.includes(fn)) event[val.length] = fn;
-    return undefined;
+    return null;
   }
 
   async emit(name, ...args) {
@@ -78,26 +78,6 @@ class AsyncEmitter {
     return Object.keys(events);
   }
 }
-
-const ee = new AsyncEmitter();
-
-(async () => {
-
-  ee.once('e1', async () => {
-    console.log('e1 listener 1');
-  });
-
-  ee.once('e1', async () => {
-    console.log('e1 listener 2');
-  });
-  console.log(ee.count('e1'))
-  console.log(ee.names().length)
-  ee.emit('e1');
-  console.log(ee.count('e1'))
-  console.log(ee.names().length);
-
-  
-})();
 
 module.exports = { AsyncEmitter };
 
