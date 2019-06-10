@@ -1,6 +1,6 @@
 'use strict';
 
-const { AsyncEmitter } = require('./AsyncEmitters/..');
+const { AsyncEmitter } = require('./AsyncEmitters/arrays&objects');
 const metatests = require('metatests');
 
 metatests.test('AsyncEmitter on/emit', async test => {

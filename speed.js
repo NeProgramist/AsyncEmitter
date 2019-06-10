@@ -1,7 +1,7 @@
 'use strict';
 
-const aeObj = require('./AsyncEmitters/objects');
-const aeArr = require('./AsyncEmitters/arrays&objects');
+const { AsyncEmitter: aeObj } = require('./AsyncEmitters/objects');
+const { AsyncEmitter: aeArr } = require('./AsyncEmitters/arrays&objects');
 
 const COUNT = [10,100,1000,10000,100000];
 
